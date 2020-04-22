@@ -20,9 +20,23 @@ use crate::util::stats::CompilationStats;
 
 use std::fmt;
 
+#[cfg(feature = "llvm")]
 mod llvm2;
 
-pub use self::llvm2::load_library;
+#[cfg(feature = "cranelift")]
+mod cranelift;
+
+#[cfg(feature = "llvm")]
+pub use self::llvm2::{load_library, size_of};
+
+#[cfg(feature = "llvm")]
+use self::llvm2::compile;
+
+#[cfg(feature = "cranelift")]
+pub use self::cranelift::{load_library, size_of};
+
+#[cfg(feature = "cranelift")]
+pub use self::cranelift::compile;
 
 /// A wrapper for a struct passed as input to Weld.
 #[derive(Clone, Debug)]
@@ -89,12 +103,7 @@ pub fn compile_program(
     conf: &mut ParsedConf,
     stats: &mut CompilationStats,
 ) -> WeldResult<CompiledModule> {
-    let runnable = llvm2::compile(&program, conf, stats)?;
+    let runnable = compile(&program, conf, stats)?;
     let result = CompiledModule { runnable };
     Ok(result)
-}
-
-/// Get the size of a value for a given target.
-pub fn size_of(ty: &Type) -> usize {
-    llvm2::size_of(ty)
 }

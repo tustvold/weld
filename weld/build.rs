@@ -1,4 +1,6 @@
+#[cfg(feature = "llvm")]
 use std::env;
+
 use std::process::Command;
 
 /// Write the build ID into an environment variable.
@@ -18,6 +20,7 @@ fn register_build_id() {
 }
 
 /// Link the C++ libraries.
+#[cfg(feature = "llvm")]
 fn link_stdcpp() {
     // Link C++ standard library and some Mac-specific libraries
     let target = env::var("TARGET").unwrap();
@@ -32,6 +35,7 @@ fn link_stdcpp() {
 }
 
 /// Build the LLVM Extensions.
+#[cfg(feature = "llvm")]
 fn build_llvmext(project_dir: &str) {
     let status = Command::new("make")
         .arg("-C")
@@ -45,6 +49,7 @@ fn build_llvmext(project_dir: &str) {
     println!("cargo:rustc-link-search=native={}", out_dir);
 }
 
+#[cfg(feature = "llvm")]
 fn main() {
     let project_dir = &env::var("CARGO_MANIFEST_DIR").unwrap();
 
@@ -56,4 +61,10 @@ fn main() {
 
     // Build and link external libs.
     build_llvmext(project_dir);
+}
+
+#[cfg(feature = "cranelift")]
+fn main() {
+    // Build ID
+    register_build_id();
 }
