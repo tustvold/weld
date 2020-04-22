@@ -2,8 +2,6 @@
 //! time.
 //!
 
-use std::error::Error;
-
 use crate::ast::*;
 
 use crate::ast::BuilderKind::*;
@@ -110,14 +108,14 @@ pub fn unroll_static_loop(expr: &mut Expr) {
 
             let vals = unroll_values(pat.merge_params, pat.merge_value, &idents, pat.loop_size);
             if let Err(err) = vals {
-                trace!("Unroller error: {}", err.description());
+                trace!("Unroller error: {}", err.to_string());
                 return None;
             }
             let vals = vals.unwrap();
 
             let combined_expr = combine_unrolled_values(pat.builder_kind.clone(), vals);
             if let Err(err) = combined_expr {
-                trace!("Unroller error: {}", err.description());
+                trace!("Unroller error: {}", err.to_string());
                 return None;
             }
 

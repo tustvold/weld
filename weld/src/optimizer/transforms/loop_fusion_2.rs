@@ -364,7 +364,7 @@ fn only_used_in_zip(name: &Symbol, expr: &Expr) -> bool {
             _ => (),
         };
     });
-    (iters_count == total_count)
+    iters_count == total_count
 }
 
 /// Aggressively inlines let statements in cases which allow loop fusion to fire. This inliner is

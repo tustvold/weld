@@ -8,7 +8,6 @@ use clap::{App, Arg};
 
 use std::collections::HashMap;
 
-use std::error::Error;
 use std::fs::File;
 use std::io::prelude::*;
 use std::path::Path;
@@ -145,22 +144,14 @@ fn read_full(arg: &str) -> WeldResult<String> {
 
     let mut file = match File::open(&path) {
         Err(why) => {
-            return weld_err!(
-                "Error: couldn't open {}: {}",
-                path_display,
-                why.description()
-            );
+            return weld_err!("Error: couldn't open {}: {}", path_display, why.to_string());
         }
         Ok(res) => res,
     };
 
     let mut contents = String::new();
     if let Err(why) = file.read_to_string(&mut contents) {
-        return weld_err!(
-            "Error: couldn't read {}: {}",
-            path_display,
-            why.description()
-        );
+        return weld_err!("Error: couldn't read {}: {}", path_display, why.to_string());
     }
     Ok(contents.trim().to_string())
 }

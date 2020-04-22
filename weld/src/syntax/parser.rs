@@ -21,8 +21,6 @@ use super::program::*;
 use super::tokenizer::Token::*;
 use super::tokenizer::*;
 
-use std::error::Error;
-
 #[cfg(test)]
 use crate::tests::{print_expr_without_indent, print_typed_expr_without_indent};
 
@@ -38,7 +36,7 @@ macro_rules! check_parse_error {
         } else if $res.is_err() {
             return compile_err!(
                 "{} (at {})",
-                $res.unwrap_err().description(),
+                $res.unwrap_err().to_string(),
                 $parser.error_context()
             );
         } else {

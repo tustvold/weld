@@ -7,7 +7,6 @@ use rustyline::error::ReadlineError;
 use rustyline::Editor;
 use std::collections::HashMap;
 use std::env;
-use std::error::Error;
 use std::fmt;
 use std::fs::File;
 use std::io::prelude::*;
@@ -76,7 +75,7 @@ fn process_loadfile(arg: &str) -> Result<String, String> {
             return Err(format!(
                 "Error: couldn't open {}: {}",
                 path_display,
-                why.description()
+                why.to_string()
             ));
         }
         Ok(res) => {
@@ -89,7 +88,7 @@ fn process_loadfile(arg: &str) -> Result<String, String> {
         return Err(format!(
             "Error: couldn't read {}: {}",
             path_display,
-            why.description()
+            why.to_string()
         ));
     }
     Ok(contents.trim().to_string())

@@ -11,7 +11,6 @@
 //! module will provide the shared Weld optimization and SIR conversion logic that currently lives in the
 //! `llvm` module.
 
-use crate::ast::*;
 use crate::conf::ParsedConf;
 use crate::error::*;
 use crate::runtime::WeldRuntimeErrno;

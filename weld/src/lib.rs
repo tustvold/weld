@@ -134,7 +134,6 @@ use time;
 use self::time::PreciseTime;
 
 use std::default::Default;
-use std::error::Error;
 use std::ffi::{CStr, CString};
 use std::fmt;
 
@@ -384,7 +383,7 @@ impl Default for WeldError {
 impl From<error::WeldCompileError> for WeldError {
     fn from(err: error::WeldCompileError) -> WeldError {
         WeldError::new(
-            CString::new(err.description()).unwrap(),
+            CString::new(err.to_string()).unwrap(),
             WeldRuntimeErrno::CompileError,
         )
     }

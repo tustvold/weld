@@ -1,9 +1,9 @@
+use crate::ast::Type;
+use crate::codegen::Runnable;
+use crate::conf::ParsedConf;
 use crate::error::WeldResult;
 use crate::sir::SirProgram;
-use crate::conf::ParsedConf;
 use crate::util::stats::CompilationStats;
-use crate::codegen::Runnable;
-use crate::ast::Type;
 
 pub fn load_library(libname: &str) -> WeldResult<()> {
     unimplemented!()
