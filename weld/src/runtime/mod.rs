@@ -27,7 +27,7 @@ pub type Ptr = *mut u8;
 static ONCE: Once = Once::new();
 
 /// Alignment for allocations.
-const DEFAULT_ALIGN: usize = 8;
+pub const DEFAULT_ALIGN: usize = 8;
 
 /// An errno set by the runtime but also used by the Weld API.
 #[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd)]

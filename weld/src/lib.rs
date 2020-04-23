@@ -123,6 +123,9 @@
 extern crate lazy_static;
 
 #[macro_use]
+extern crate memoffset;
+
+#[macro_use]
 extern crate log;
 
 use chrono;
@@ -566,7 +569,7 @@ impl WeldConf {
 #[derive(Debug)]
 pub struct WeldModule {
     /// A compiled, runnable module.
-    llvm_module: codegen::CompiledModule,
+    module: codegen::CompiledModule,
     /// The Weld parameter types this modules accepts.
     param_types: Vec<ast::Type>,
     /// The Weld return type of this module.
@@ -753,7 +756,7 @@ impl WeldModule {
         );
 
         Ok(WeldModule {
-            llvm_module: compiled_module,
+            module: compiled_module,
             param_types,
             return_type,
             module_id: uuid,
@@ -851,7 +854,7 @@ impl WeldModule {
             let ptr = Box::into_raw(input) as i64;
 
             // Runs the Weld program.
-            let raw = self.llvm_module.run(ptr) as *const codegen::WeldOutputArgs;
+            let raw = self.module.run(ptr) as *const codegen::WeldOutputArgs;
             let result = (*raw).clone();
 
             // Free the boxed input.

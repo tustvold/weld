@@ -19,22 +19,22 @@ use crate::util::stats::CompilationStats;
 
 use std::fmt;
 
-#[cfg(feature = "llvm")]
+#[cfg(feature = "llvm_codegen")]
 mod llvm2;
 
-#[cfg(feature = "cranelift")]
+#[cfg(feature = "cranelift_codegen")]
 mod cranelift;
 
-#[cfg(feature = "llvm")]
+#[cfg(feature = "llvm_codegen")]
 pub use self::llvm2::{load_library, size_of};
 
-#[cfg(feature = "llvm")]
+#[cfg(feature = "llvm_codegen")]
 use self::llvm2::compile;
 
-#[cfg(feature = "cranelift")]
+#[cfg(feature = "cranelift_codegen")]
 pub use self::cranelift::{load_library, size_of};
 
-#[cfg(feature = "cranelift")]
+#[cfg(feature = "cranelift_codegen")]
 pub use self::cranelift::compile;
 
 /// A wrapper for a struct passed as input to Weld.
