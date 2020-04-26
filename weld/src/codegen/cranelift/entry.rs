@@ -88,8 +88,12 @@ pub fn gen_entry(
             .ins()
             .iconst(types::I64, std::mem::size_of::<WeldOutputArgs>() as i64);
 
-        let ret = call_single(&mut builder, alloc_ref, &[runtime_ctx, out_size]);
+        let main_ref = module.import_func(builder.func, module.get_user_function(0));
 
+        // TODO: Handle inputs
+        call_single(&mut builder, main_ref, &[runtime_ctx]);
+
+        let ret = call_single(&mut builder, alloc_ref, &[runtime_ctx, out_size]);
         let result  = call_single(&mut builder, get_result, &[runtime_ctx]);
         let errno = call_single(&mut builder, get_errno, &[runtime_ctx]);
 

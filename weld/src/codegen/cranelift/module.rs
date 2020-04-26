@@ -15,6 +15,7 @@ pub enum SysFunction {
     Malloc,
     Init,
     GetResult,
+    SetResult,
     GetErrno,
 
     Max,
@@ -117,6 +118,14 @@ impl Module {
                 returns: vec![types::I64],
             },
             StaticFunc {
+                key: SysFunction::SetResult,
+                name: "weld_runst_set_result",
+                ptr: ffi::weld_runst_set_result as *const u8,
+                params: vec![types::I64, types::I64],
+                returns: vec![],
+            },
+
+            StaticFunc {
                 key: SysFunction::GetErrno,
                 name: "weld_runst_get_errno",
                 ptr: ffi::weld_runst_get_errno as *const u8,
@@ -147,6 +156,8 @@ impl Module {
     }
 
     pub fn define_function(&mut self, id: usize) -> Function {
+        self.module.clear_context(&mut self.ctx);
+
         let (func_id, sig) = self.user_funcs[id].clone().unwrap();
         Function::with_name_signature(func_id.into(), sig)
     }
@@ -207,7 +218,6 @@ mod test {
 
         let func_id = module.declare_function(0, &[types::I32], &[types::I32]);
 
-        module.module.clear_context(&mut module.ctx);
         let mut func = module.define_function(0);
 
         let mut builder = FunctionBuilder::new(&mut func, &mut func_ctx);
