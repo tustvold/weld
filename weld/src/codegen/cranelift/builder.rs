@@ -1,5 +1,5 @@
-use cranelift::prelude::*;
 use cranelift::codegen::ir::FuncRef;
+use cranelift::prelude::*;
 
 pub fn call_single(builder: &mut FunctionBuilder, func: FuncRef, args: &[Value]) -> Value {
     let inst = builder.ins().call(func, args);

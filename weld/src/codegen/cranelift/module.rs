@@ -124,14 +124,13 @@ impl Module {
                 params: vec![types::I64, types::I64],
                 returns: vec![],
             },
-
             StaticFunc {
                 key: SysFunction::GetErrno,
                 name: "weld_runst_get_errno",
                 ptr: ffi::weld_runst_get_errno as *const u8,
                 params: vec![types::I64],
                 returns: vec![types::I64],
-            }
+            },
         ]
     }
 

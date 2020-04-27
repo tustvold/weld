@@ -523,11 +523,6 @@ impl Symbol {
     pub fn id(&self) -> i32 {
         self.id
     }
-
-    #[cfg(feature = "cranelift_codegen")]
-    pub fn to_var(&self) -> cranelift::prelude::Variable {
-        cranelift::prelude::Variable::with_u32(self.id as u32)
-    }
 }
 
 impl fmt::Display for Symbol {
