@@ -1,10 +1,10 @@
 use cranelift::prelude::*;
 use cranelift_module::FuncId;
 
-use crate::codegen::{WeldInputArgs, WeldOutputArgs};
 use crate::codegen::cranelift::builder::call_single;
 use crate::codegen::cranelift::layout::{convert_type, LayoutIterator};
 use crate::codegen::cranelift::module::{Module, SysFunction};
+use crate::codegen::{WeldInputArgs, WeldOutputArgs};
 use crate::sir::SirProgram;
 
 pub fn gen_entry(

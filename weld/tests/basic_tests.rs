@@ -131,6 +131,19 @@ fn f64_cast() {
 }
 
 #[test]
+fn f64_sum() {
+    let code = "|x:f64| x + 42.4";
+    let ref conf = default_conf();
+
+    let ref input_data = 24.0;
+
+    let ret_value = compile_and_run(code, conf, input_data);
+    let data = ret_value.data() as *const f64;
+    let result = unsafe { *data };
+    assert_eq!(result, 66.4);
+}
+
+#[test]
 fn i32_cast() {
     let code = "|| i32(0.251 * 4.0)";
     let ref conf = default_conf();
@@ -141,6 +154,19 @@ fn i32_cast() {
     let data = ret_value.data() as *const i32;
     let result = unsafe { *data };
     assert_eq!(result, 1);
+}
+
+#[test]
+fn bitcast() {
+    let code = "|| i8(u8(33))";
+    let ref conf = default_conf();
+
+    let ref input_data = 0;
+
+    let ret_value = compile_and_run(code, conf, input_data);
+    let data = ret_value.data() as *const i8;
+    let result = unsafe { *data };
+    assert_eq!(result, 33);
 }
 
 #[test]
@@ -248,6 +274,19 @@ fn maxmin() {
     let data = ret_value.data() as *const i32;
     let result = unsafe { *data };
     assert_eq!(result, 3);
+}
+
+#[test]
+fn maxmin_f32() {
+    let code = "|| max(3.1f, min(4.0f, 4.3f))";
+    let ref conf = default_conf();
+
+    let ref input_data: i32 = 0;
+
+    let ret_value = compile_and_run(code, conf, input_data);
+    let data = ret_value.data() as *const f32;
+    let result = unsafe { *data };
+    assert_eq!(result, 4.0);
 }
 
 #[test]

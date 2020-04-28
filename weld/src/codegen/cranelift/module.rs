@@ -141,7 +141,7 @@ impl Module {
         returns: &[types::Type],
     ) -> FuncId {
         let mut sig = self.module.make_signature();
-        sig.params = params.into_iter().map(|x| AbiParam::new(*x)).collect();
+        sig.params = params.iter().map(|x| AbiParam::new(*x)).collect();
         sig.returns = returns.into_iter().map(|x| AbiParam::new(*x)).collect();
 
         let func_id = self

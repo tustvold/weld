@@ -2,7 +2,7 @@ use crate::ast::{ScalarKind, Type};
 use cranelift::prelude::*;
 use std::cmp::max;
 
-pub fn convert_scalar(s: &ScalarKind) -> types::Type {
+pub fn convert_scalar(s: ScalarKind) -> types::Type {
     match s {
         ScalarKind::Bool => types::I8,
         ScalarKind::I8 => types::I8,
@@ -20,7 +20,7 @@ pub fn convert_scalar(s: &ScalarKind) -> types::Type {
 
 pub fn convert_type(t: &Type) -> types::Type {
     match t {
-        Type::Scalar(x) => convert_scalar(x),
+        Type::Scalar(x) => convert_scalar(*x),
         _ => unimplemented!(),
     }
 }
